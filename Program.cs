@@ -20,7 +20,7 @@ namespace Karkinosware {
         public static FixedPointNumber operator+ (FixedPointNumber x, FixedPointNumber y) {
             FixedPointNumber z = new FixedPointNumber();
             long zNum = (long)x.num + (long)y.num;
-            if(zNum > ((long)1<<32)){
+            if(zNum > ((long)1<<32) || ((GetMSB(x.num) ^ GetMSB(y.num)) == 0 && (GetMSB(x.num) ^ GetMSB(zNum)) == 1)){
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("加算の途中でオーバーフローが発生しました。");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -32,7 +32,7 @@ namespace Karkinosware {
         public static FixedPointNumber operator- (FixedPointNumber x, FixedPointNumber y) {
             FixedPointNumber z = new FixedPointNumber();
             long zNum = (long)x.num - (long)y.num;
-            if(zNum > ((long)1<<32)){
+            if(zNum > ((long)1<<32) || ((GetMSB(x.num) ^ GetMSB(y.num)) == 1 && (GetMSB(x.num) ^ GetMSB(zNum)) == 1)){
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("減算の途中でオーバーフローが発生しました。");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -68,6 +68,14 @@ namespace Karkinosware {
             return z;
         }
 
+        private static int GetMSB(int num){
+            int msb = num >> (INTEGER_DIGIT-1) & 1;
+            return msb;
+        }private static int GetMSB(long num){
+            int msb = (int)(num >> (INTEGER_DIGIT-1) & 1);
+            return msb;
+        }
+
         //10進数表記で出力
         public string ToStringValue() {
             decimal num = this.num;
@@ -85,8 +93,9 @@ namespace Karkinosware {
 
     class Program {
         static void Main(string[] args) {
-            FixedPointNumber x = new FixedPointNumber(10000m);
-            FixedPointNumber y = new FixedPointNumber(100m);
+            FixedPointNumber x = new FixedPointNumber(65535m);
+            FixedPointNumber y = new FixedPointNumber(-65535m);
+            Console.WriteLine($"{x.BinaryToStringValue()}, {y.BinaryToStringValue()}");
             Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
             Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
             Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
