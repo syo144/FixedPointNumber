@@ -45,7 +45,7 @@ namespace Karkinosware {
             FixedPointNumber z = new FixedPointNumber();
             long zNum = (long)x.num * (long)y.num;
             zNum = zNum >> DIGIT;
-            if(zNum > ((long)1<<32)){
+            if(zNum > ((long)1<<32) || (GetMSB(x.num) ^ GetMSB(y.num)) != GetMSB(zNum)){
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("乗算の途中でオーバーフローが発生しました。");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -58,7 +58,7 @@ namespace Karkinosware {
             FixedPointNumber z = new FixedPointNumber();
             long zNum = (long)x.num / (long)y.num;
             zNum = zNum << DIGIT;
-            if(zNum > ((long)1<<32)){
+            if(zNum > ((long)1<<32) || (GetMSB(x.num) ^ GetMSB(y.num)) != GetMSB(zNum)){
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("除算の途中でオーバーフローが発生しました。");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -93,8 +93,50 @@ namespace Karkinosware {
 
     class Program {
         static void Main(string[] args) {
-            FixedPointNumber x = new FixedPointNumber(65535m);
-            FixedPointNumber y = new FixedPointNumber(-65535m);
+            FixedPointNumber x;
+            FixedPointNumber y;
+/*
+            x = new FixedPointNumber(10000m);
+            y = new FixedPointNumber(0.5m);
+            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+
+            x = new FixedPointNumber(65535m);
+            y = new FixedPointNumber(-65535m);
+            Console.WriteLine($"{x.BinaryToStringValue()}, {y.BinaryToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+
+            x = new FixedPointNumber(0.5m);
+            y = new FixedPointNumber(0.5m);
+            Console.WriteLine($"{x.BinaryToStringValue()}, {y.BinaryToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+
+            x = new FixedPointNumber(0.1m);
+            y = new FixedPointNumber(0.1m);
+            Console.WriteLine($"{x.BinaryToStringValue()}, {y.BinaryToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+
+            x = new FixedPointNumber(65535m);
+            y = new FixedPointNumber(-2m);
+            Console.WriteLine($"{x.BinaryToStringValue()}, {y.BinaryToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
+            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+*/
+            x = new FixedPointNumber(65535m);
+            y = new FixedPointNumber(-0.5m);
             Console.WriteLine($"{x.BinaryToStringValue()}, {y.BinaryToStringValue()}");
             Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
             Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
