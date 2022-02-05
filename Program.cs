@@ -20,14 +20,14 @@ namespace Karkinosware {
                 string[] numStr = new string[2];
                 numStr[0] = Regex.Match(str, "^[-]?[0-9]+[.]?[0-9]*").Value;
                 str = Regex.Replace(str,"^[-]?[0-9]+[.]?[0-9]*","");
-                Console.WriteLine("str:"+str+", num1:"+numStr[0] + ", num2:"+numStr[1]);
-                numStr[1] = Regex.Match(str, "[-]?[0-9]+[.]?[0-9]*$").Value;
-                str = Regex.Replace(str,"[-]?[0-9]+[.]?[0-9]*$","");
-                Console.WriteLine("str:"+str+", num1:"+numStr[0] + ", num2:"+numStr[1]);
+                string calcStr = Regex.Match(str, "^[/+-/*//]").Value;
+                str = Regex.Replace(str,"^[/+-/*//]","");
+                numStr[1] = Regex.Match(str, "[-]?[0-9]+[.]?[0-9]*").Value;
+                //Console.WriteLine("calcStr:"+calcStr+", num1:"+numStr[0] + ", num2:"+numStr[1]);
                 
                 FixedPointNumber x = new FixedPointNumber(Convert.ToDecimal(numStr[0]));
                 FixedPointNumber y = new FixedPointNumber(Convert.ToDecimal(numStr[1]));
-                switch (str)
+                switch (calcStr)
                 {
                     case "+":
                         this.num = (x+y).num;
