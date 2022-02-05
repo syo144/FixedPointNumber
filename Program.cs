@@ -15,13 +15,13 @@ namespace Karkinosware {
         public FixedPointNumber(){}
         public FixedPointNumber(string str){
             str = Regex.Replace(str, " ", "");
-            bool isMatch = Regex.IsMatch(str, "^[-]?[0-9]+[.]?[0-9]*[/+-/*//][-]?[0-9]+[.]?[0-9]*$");
+            bool isMatch = Regex.IsMatch(str, "^[-]?[0-9]+[.]?[0-9]*[/+-/*///%][-]?[0-9]+[.]?[0-9]*$");
             if(isMatch){
                 string[] numStr = new string[2];
                 numStr[0] = Regex.Match(str, "^[-]?[0-9]+[.]?[0-9]*").Value;
                 str = Regex.Replace(str,"^[-]?[0-9]+[.]?[0-9]*","");
-                string calcStr = Regex.Match(str, "^[/+-/*//]").Value;
-                str = Regex.Replace(str,"^[/+-/*//]","");
+                string calcStr = Regex.Match(str, "^[/+-/*///%]").Value;
+                str = Regex.Replace(str,"^[/+-/*///%]","");
                 numStr[1] = Regex.Match(str, "[-]?[0-9]+[.]?[0-9]*").Value;
                 //Console.WriteLine("calcStr:"+calcStr+", num1:"+numStr[0] + ", num2:"+numStr[1]);
                 
@@ -40,6 +40,9 @@ namespace Karkinosware {
                         break;
                     case "/":
                         this.num = (x/y).num;
+                        break;
+                    case "%":
+                        this.num = (x%y).num;
                         break;
                     default:
                         break;
@@ -61,7 +64,7 @@ namespace Karkinosware {
         public static FixedPointNumber operator+ (FixedPointNumber x, FixedPointNumber y) {
             FixedPointNumber z = new FixedPointNumber();
             long zNum = (long)x.num + (long)y.num;
-            if(zNum > ((long)1<<32) || ((GetMSB(x.num) ^ GetMSB(y.num)) == 0 && (GetMSB(x.num) ^ GetMSB(zNum)) == 1)){
+            if(zNum > ((long)1<<32) || ((GetSignBit(x.num) ^ GetSignBit(y.num)) == 0 && (GetSignBit(x.num) ^ GetSignBit(zNum)) == 1)){
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("加算の途中でオーバーフローが発生しました。");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -73,7 +76,7 @@ namespace Karkinosware {
         public static FixedPointNumber operator- (FixedPointNumber x, FixedPointNumber y) {
             FixedPointNumber z = new FixedPointNumber();
             long zNum = (long)x.num - (long)y.num;
-            if(zNum > ((long)1<<32) || ((GetMSB(x.num) ^ GetMSB(y.num)) == 1 && (GetMSB(x.num) ^ GetMSB(zNum)) == 1)){
+            if(zNum > ((long)1<<32) || ((GetSignBit(x.num) ^ GetSignBit(y.num)) == 1 && (GetSignBit(x.num) ^ GetSignBit(zNum)) == 1)){
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("減算の途中でオーバーフローが発生しました。");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -86,7 +89,7 @@ namespace Karkinosware {
             FixedPointNumber z = new FixedPointNumber();
             long zNum = (long)x.num * (long)y.num;
             zNum = zNum >> DIGIT;
-            if(zNum > ((long)1<<32) || (GetMSB(x.num) ^ GetMSB(y.num)) != GetMSB(zNum)){
+            if(zNum > ((long)1<<32) || (GetSignBit(x.num) ^ GetSignBit(y.num)) != GetSignBit(zNum)){
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("乗算の途中でオーバーフローが発生しました。");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -99,7 +102,7 @@ namespace Karkinosware {
             FixedPointNumber z = new FixedPointNumber();
             long zNum = (long)x.num << DIGIT;
             zNum = zNum / (long)y.num;
-            if(zNum > ((long)1<<32) || (GetMSB(x.num) ^ GetMSB(y.num)) != GetMSB(zNum)){
+            if(zNum > ((long)1<<32) || (GetSignBit(x.num) ^ GetSignBit(y.num)) != GetSignBit(zNum)){
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine("除算の途中でオーバーフローが発生しました。");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -108,11 +111,17 @@ namespace Karkinosware {
             }
             return z;
         }
+        public static FixedPointNumber operator% (FixedPointNumber x, FixedPointNumber y) {
+            FixedPointNumber z = new FixedPointNumber();
+            long quotient = (long)x.num / (long)y.num;
+            z.num = (int)((long)x.num - quotient * (long)y.num);
+            return z;
+        }
 
-        private static int GetMSB(int num){
+        private static int GetSignBit(int num){
             int msb = num >> (INTEGER_DIGIT-1) & 1;
             return msb;
-        }private static int GetMSB(long num){
+        }private static int GetSignBit(long num){
             int msb = (int)(num >> (INTEGER_DIGIT-1) & 1);
             return msb;
         }
