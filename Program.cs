@@ -127,14 +127,14 @@ namespace Karkinosware {
         }
 
         //10進数表記の文字列に変換
-        public string ToStringValue() {
+        public string NumberToString() {
             decimal num = this.num;
             num /= (int)Math.Pow(2.0, DIGIT);
             return Convert.ToString(num);
         }
 
         //2進数表記の文字列に変換
-        public string BinaryToStringValue(){
+        public string BinaryNumberToString(){
             var str = Convert.ToString(this.num, toBase:2);
             str = str.PadLeft(sizeof(int) * 8, '0');
             return str;
@@ -153,50 +153,50 @@ namespace Karkinosware {
                 x = new FixedPointNumber(0m);
                 Console.WriteLine("nullです");
             }
-            Console.WriteLine(x.ToStringValue());
+            Console.WriteLine(x.NumberToString());
 
             /*
             x = new FixedPointNumber(10000m);
             y = new FixedPointNumber(0.5m);
-            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+            Console.WriteLine($"{x.NumberToString()} + {y.NumberToString()} = {(x + y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} - {y.NumberToString()} = {(x - y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} * {y.NumberToString()} = {(x * y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} / {y.NumberToString()} = {(x / y).NumberToString()}");
 
             x = new FixedPointNumber(65535m);
             y = new FixedPointNumber(-65535m);
-            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+            Console.WriteLine($"{x.NumberToString()} + {y.NumberToString()} = {(x + y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} - {y.NumberToString()} = {(x - y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} * {y.NumberToString()} = {(x * y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} / {y.NumberToString()} = {(x / y).NumberToString()}");
 
             x = new FixedPointNumber(0.5m);
             y = new FixedPointNumber(0.5m);
-            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+            Console.WriteLine($"{x.NumberToString()} + {y.NumberToString()} = {(x + y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} - {y.NumberToString()} = {(x - y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} * {y.NumberToString()} = {(x * y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} / {y.NumberToString()} = {(x / y).NumberToString()}");
 
             x = new FixedPointNumber(0.1m);
             y = new FixedPointNumber(0.1m);
-            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+            Console.WriteLine($"{x.NumberToString()} + {y.NumberToString()} = {(x + y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} - {y.NumberToString()} = {(x - y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} * {y.NumberToString()} = {(x * y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} / {y.NumberToString()} = {(x / y).NumberToString()}");
 
             x = new FixedPointNumber(65535m);
             y = new FixedPointNumber(-2m);
-            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+            Console.WriteLine($"{x.NumberToString()} + {y.NumberToString()} = {(x + y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} - {y.NumberToString()} = {(x - y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} * {y.NumberToString()} = {(x * y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} / {y.NumberToString()} = {(x / y).NumberToString()}");
 
             x = new FixedPointNumber(65535m);
             y = new FixedPointNumber(-0.5m);
-            Console.WriteLine($"{x.ToStringValue()} + {y.ToStringValue()} = {(x + y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} - {y.ToStringValue()} = {(x - y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} * {y.ToStringValue()} = {(x * y).ToStringValue()}");
-            Console.WriteLine($"{x.ToStringValue()} / {y.ToStringValue()} = {(x / y).ToStringValue()}");
+            Console.WriteLine($"{x.NumberToString()} + {y.NumberToString()} = {(x + y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} - {y.NumberToString()} = {(x - y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} * {y.NumberToString()} = {(x * y).NumberToString()}");
+            Console.WriteLine($"{x.NumberToString()} / {y.NumberToString()} = {(x / y).NumberToString()}");
             */
         }
     }
